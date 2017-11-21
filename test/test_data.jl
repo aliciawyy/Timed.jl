@@ -7,4 +7,5 @@
     @test timed_data.timestamp == timestamp
     @test timed_data.keys == tickers
     @test timed_data.values == prices
+    @test get_value(timed_data, :SPY) == 248.03
 end
