@@ -50,6 +50,5 @@ function Base.:+(x::TimedData, y::TimedData)
     end
     overall = merge(+, Dict(x), Dict(y))
     keys_ = sort(collect(keys(overall)))
-    values_ = map(k -> overall[k], keys_)
-    TimedData(x.timestamp, keys_, values_)
+    TimedData(x.timestamp, keys_, getindex.(overall, keys_))
 end
