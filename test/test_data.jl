@@ -5,6 +5,7 @@
     timed_data = TimedData(timestamp, tickers, prices)
 
     @test_throws ArgumentError TimedData(timestamp, tickers, [100.10, 200.02])
+    @test_throws ArgumentError TimedData(timestamp, [:SHY, :SPY, :SPY], prices)
     @test timed_data.timestamp == timestamp
     @test timed_data.keys == tickers
     @test timed_data.values == prices
