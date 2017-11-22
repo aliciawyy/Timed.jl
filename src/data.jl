@@ -18,7 +18,7 @@ struct TimedData
         new(timestamp, keys, values)
     end
 
-    function TimedData(timestamp::String, keys::Vector, values::Vector)
+    function TimedData(timestamp::String, keys::Vector{Symbol}, values::Vector)
         new(DateTime(timestamp), keys, values)
     end
 end
