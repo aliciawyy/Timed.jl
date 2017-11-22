@@ -1,3 +1,5 @@
+TOL = 1e-10
+
 struct TimedData
     timestamp::DateTime
     keys::Vector{Symbol}
@@ -17,15 +19,17 @@ struct TimedData
 
     function TimedData(timestamp::String, keys_::Vector{Symbol},
                        values_::Vector)
-        new(Base.DateTime(timestamp), keys_, values_)
+        new(DateTime(timestamp), keys_, values_)
     end
 end
+
+Base.Dict(d::TimedData) = Dict(zip(d.keys, d.values))
 
 Base.getindex(d::TimedData, key::Symbol) = d.values[d.keys .== key][1]
 Base.getindex(d::TimedData, index::Int) = d.values[index]
 Base.getindex(d::TimedData, index::Vector{Int}) = d.values[index]
 Base.getindex(d::TimedData, keys_::Vector{Symbol}) = getindex(
-    d, findin(d.keys, keys_)
+    d, indexin(keys_, d.keys)
 )
 
 function Base.:*(d::TimedData, num::Number)
@@ -34,13 +38,17 @@ end
 Base.:*(num::Number, d::TimedData) = d * num
 
 function Base.:(==)(x::TimedData, y::TimedData)
-    x.timestamp == y.timestamp && x.keys == y.keys && x.values == y.values
+    is_info_match = x.timestamp == y.timestamp && x.keys == y.keys
+    is_info_match && dist1(x.values, y.values) < TOL
 end
 
 function Base.:+(x::TimedData, y::TimedData)
-    x_ = Dict(zip(x.keys, x.values))
-    y_ = Dict(zip(y.keys, y.values))
-    overall = merge(+, x_, y_)
+    if x.timestamp != y.timestamp
+        msg = """Cannot add two data of different timestamps:
+                 x=$(x.timestamp) y=$(y.timestamp)"""
+        throw(ArgumentError(msg))
+    end
+    overall = merge(+, Dict(x), Dict(y))
     keys_ = sort(collect(keys(overall)))
     values_ = map(k -> overall[k], keys_)
     TimedData(x.timestamp, keys_, values_)
