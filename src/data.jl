@@ -14,14 +14,6 @@ struct TimedData
     end
 end
 
-function get_value(d::TimedData, index::Symbol)
-    return d.values[d.keys .== index][1]
-end
-
-function get_value(d::TimedData, index::Int)
-    return d.values[index]
-end
-
-function get_value(d::TimedData, index::Vector)
-    return map(i -> get_value(d, i), index)
-end
+get_value(d::TimedData, key::Symbol) = d.values[d.keys .== key][1]
+get_value(d::TimedData, key::Int) = d.values[key]
+get_value(d::TimedData, keys::Vector) = map(key -> get_value(d, key), keys)

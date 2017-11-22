@@ -1,8 +1,6 @@
-function dist1(x::Vector, y::Vector)
-    return sum(abs.(x - y))
-end
+dist1(x::Vector, y::Vector) = sum(abs.(x - y))
 
 function dist2(x::Vector, y::Vector)
     diff = x - y
-    return sum(diff .* diff)
+    sum(diff .* diff)
 end
