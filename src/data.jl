@@ -1,4 +1,3 @@
-
 struct TimedData
     timestamp::DateTime
     keys::Vector{Symbol}
