@@ -1,4 +1,3 @@
-using Base.Dates
 
 struct TimedData
     timestamp::DateTime
