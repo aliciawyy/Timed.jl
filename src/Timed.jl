@@ -4,6 +4,6 @@ include("stats.jl")
 export dist1, dist2
 
 include("data.jl")
-export TimedData, get_value
+export TimedData
 
 end
