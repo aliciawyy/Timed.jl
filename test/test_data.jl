@@ -22,8 +22,7 @@
     @test get_value(timed_data, [:SPY, :EWJ]) == [248.03, 38.20]
     @test get_value(timed_data, [1, 3]) == [84.50, 38.20]
 
-    timed_data15 = timed_data * 1.5
-    @test timed_data15.timestamp == timed_data.timestamp
-    @test timed_data15.keys ==  timed_data.keys
-    @test timed_data15.values == prices .* 1.5
+    timed_data15 = TimedData(timestamp, tickers, prices .* 1.5)
+    @test timed_data * 1.5 == timed_data15
+    @test 1.5 * timed_data == timed_data15
 end

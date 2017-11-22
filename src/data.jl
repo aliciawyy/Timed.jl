@@ -30,3 +30,8 @@ get_value(d::TimedData, keys::Vector) = map(key -> get_value(d, key), keys)
 function Base.:*(d::TimedData, num::Number)
     TimedData(d.timestamp, d.keys, d.values .* num)
 end
+Base.:*(num::Number, d::TimedData) = d * num
+
+function Base.:(==)(x::TimedData, y::TimedData)
+    x.timestamp == y.timestamp && x.keys == y.keys && x.values == y.values
+end
