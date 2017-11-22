@@ -5,11 +5,11 @@ struct TimedData
 
     function TimedData(timestamp::DateTime, keys::Vector{Symbol},
                        values::Vector)
-        key_size = size(keys)
-        if key_size != size(values)
+        key_len = length(keys)
+        if key_len != length(values)
             msg = "keys=$keys and values=$values should have the same size!"
             throw(ArgumentError(msg))
-        elseif key_size != size(union(keys))
+        elseif key_len > length(union(keys))
             msg = "keys=$keys should not contain duplicates!"
             throw(ArgumentError(msg))
         end
@@ -32,4 +32,10 @@ Base.:*(num::Number, d::TimedData) = d * num
 
 function Base.:(==)(x::TimedData, y::TimedData)
     x.timestamp == y.timestamp && x.keys == y.keys && x.values == y.values
+end
+
+function Base.:+(x::TimedData, y::TimedData)
+    overall = Dict(zip(x.keys, x.values))
+    map(i -> add(values[i], get_value()))
+    TimedData(x.timestamp, keys, values)
 end

@@ -25,4 +25,10 @@
     timed_data15 = TimedData(timestamp, tickers, prices .* 1.5)
     @test timed_data * 1.5 == timed_data15
     @test 1.5 * timed_data == timed_data15
+
+    timed_data2 = TimedData(timestamp, [:SPY, :QQQ], [100., 200])
+    expected_sum = TimedData(
+        timestamp, [:EWJ, :QQQ, :SHY, :SPY], [38.20, 200., 84.50, 348.03]
+    )
+    @test timed_data + timed_data2 == expected_sum
 end
