@@ -1,9 +1,9 @@
 struct TimedData
-    timestamp::Base.DateTime
+    timestamp::DateTime
     keys::Vector{Symbol}
     values::Vector
 
-    function TimedData(timestamp::Base.DateTime, keys_::Vector{Symbol},
+    function TimedData(timestamp::DateTime, keys_::Vector{Symbol},
                        values_::Vector)
         if length(keys_) != length(values_)
             msg = "keys=$keys_ and values=$values_ should have the same size!"

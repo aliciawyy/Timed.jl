@@ -7,5 +7,9 @@ julia:
   - 0.6
   - nightly
 
+matrix:
+  allow_failure:
+    - julia: nightly
+
 after_success:
   - julia -e 'cd(Pkg.dir("Timed")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
