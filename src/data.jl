@@ -21,9 +21,12 @@ struct TimedData
     end
 end
 
-get_value(d::TimedData, key::Symbol) = d.values[d.keys .== key][1]
-get_value(d::TimedData, index::Int) = d.values[index]
-get_value(d::TimedData, keys_::Vector) = map(key -> get_value(d, key), keys_)
+Base.getindex(d::TimedData, key::Symbol) = d.values[d.keys .== key][1]
+Base.getindex(d::TimedData, index::Int) = d.values[index]
+Base.getindex(d::TimedData, index::Vector{Int}) = d.values[index]
+Base.getindex(d::TimedData, keys_::Vector{Symbol}) = getindex(
+    d, findin(d.keys, keys_)
+)
 
 function Base.:*(d::TimedData, num::Number)
     TimedData(d.timestamp, d.keys, d.values .* num)
