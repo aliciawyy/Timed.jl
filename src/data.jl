@@ -26,3 +26,7 @@ end
 get_value(d::TimedData, key::Symbol) = d.values[d.keys .== key][1]
 get_value(d::TimedData, key::Int) = d.values[key]
 get_value(d::TimedData, keys::Vector) = map(key -> get_value(d, key), keys)
+
+function Base.:*(d::TimedData, num::Number)
+    TimedData(d.timestamp, d.keys, d.values .* num)
+end
