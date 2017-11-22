@@ -2,10 +2,11 @@ using Base.Dates
 
 struct TimedData
     timestamp::DateTime
-    keys::Vector
+    keys::Vector{Symbol}
     values::Vector
 
-    function TimedData(timestamp::DateTime, keys::Vector, values::Vector)
+    function TimedData(timestamp::DateTime, keys::Vector{Symbol},
+                       values::Vector)
         key_size = size(keys)
         if key_size != size(values)
             msg = "keys=$keys and values=$values should have the same size!"
@@ -15,6 +16,10 @@ struct TimedData
             throw(ArgumentError(msg))
         end
         new(timestamp, keys, values)
+    end
+
+    function TimedData(timestamp::String, keys::Vector, values::Vector)
+        new(DateTime(timestamp), keys, values)
     end
 end
 
